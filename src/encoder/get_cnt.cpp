@@ -8,7 +8,7 @@
 
 
 
-void get_cnt(std::ifstream &fin, int cnt_of_symbols[]) {
+void get_cnt(std::ifstream &fin, unsigned long long cnt_of_symbols[]) {
     fin.clear(), fin.seekg(0, std::ios::beg);
     char input_byte;
     while (fin.read(&input_byte, sizeof(char))) {
@@ -17,7 +17,7 @@ void get_cnt(std::ifstream &fin, int cnt_of_symbols[]) {
 }
 
 
-void get_cnt(std::string &s, int cnt_of_symbols[]) {
+void get_cnt(std::string &s, unsigned long long cnt_of_symbols[]) {
     for (const char c : s) {
         cnt_of_symbols[static_cast<unsigned char>(c)]++;
     }

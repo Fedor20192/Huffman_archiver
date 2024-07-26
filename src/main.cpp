@@ -2,11 +2,15 @@
 // Created by fedor on 7/26/24.
 //
 
+#include <cstring>
 #include <iostream>
 #include <fstream>
 #include <filesystem>
 
 #include "encoder/get_cnt.h"
+#include "CONSTANTS.h"
+#include "structures/Bor.h"
+
 
 namespace fs = std::filesystem;
 
@@ -24,9 +28,8 @@ int main(int argc, char *argv[]) {
         help_message();
         return 1;
     }
-    if (argv[1] == "-c") {
-        constexpr int UCHAR_RANGE = 256;
-        int cnt_of_symbols[UCHAR_RANGE] = {};
+    if (strcmp(argv[1], "-c") == 0) {
+        unsigned long long cnt_of_symbols[UCHAR_RANGE] = {}; //todo: int to long long
         fs::path output_path = argv[2];
         std::ofstream fout(output_path);
         for (int ind = 3; ind < argc; ind++) {
@@ -41,7 +44,7 @@ int main(int argc, char *argv[]) {
             get_cnt(fin, cnt_of_symbols);
             fin.close();
         }
+        auto bor = Bor(cnt_of_symbols);
     } else {
-
     }
 }
