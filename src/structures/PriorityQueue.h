@@ -11,7 +11,7 @@
 class PriorityQueue {
 public:
     explicit PriorityQueue(const unsigned queue_sz) {
-        sz = 0, up_sz = queue_sz;
+        sz = 0;
         tree = new BorNode *[queue_sz];
         for (int i = 0; i < queue_sz; i++) {
             tree[i] = nullptr;
@@ -29,7 +29,7 @@ public:
         return tree[0];
     }
 
-    void push_down(unsigned node_ind) {
+    void push_down(unsigned node_ind) const {
         while (2 * node_ind + 1 < sz) {
             const unsigned left_son = 2 * node_ind + 1, right_son = 2 * node_ind + 2;
             unsigned min_son = left_son;
@@ -47,7 +47,7 @@ public:
         }
     }
 
-    void push_up(unsigned node_ind) {
+    void push_up(unsigned node_ind) const {
         while (node_ind && tree[node_ind]->cmp(tree[(node_ind - 1) / 2])) {
             BorNode *N = tree[node_ind];
             tree[node_ind] = tree[(node_ind - 1) / 2];
@@ -75,7 +75,7 @@ public:
     }
 
 private:
-    unsigned sz, up_sz;
+    unsigned sz;
     BorNode **tree;
 };
 

@@ -7,7 +7,7 @@
 
 class BorNode {
 public:
-    BorNode(const unsigned long long cnt_of_symbol, const unsigned char _symb) {
+    BorNode(const unsigned long long cnt_of_symbol, const unsigned short _symb) {
         weight = cnt_of_symbol;
         symb = _symb;
         is_terminal = true;
@@ -15,7 +15,7 @@ public:
 
     BorNode(BorNode *a, BorNode *b) {
         weight = a->weight + b->weight;
-        symb = '0';
+        symb = std::min(a->symb, b->symb);
         l = a, r = b;
     }
 
@@ -24,28 +24,29 @@ public:
     }
 
     bool cmp(const BorNode *x) const {
-        return this->weight < x->weight;
+        return weight < x->weight || (weight == x->weight && symb < x->symb);
     }
 
-    [[nodiscard]] unsigned long long get_weight() const {
-        if (this == nullptr) {
-            return 0;
-        }
-        return weight;
+    [[nodiscard]] BorNode *get_left_son() const {
+        return l;
     }
 
-    BorNode* get_left_son() {
-        return this->l;
+    [[nodiscard]] BorNode *get_right_son() const {
+        return r;
     }
 
-    BorNode* get_right_son() {
-        return this->r;
+    [[nodiscard]] bool is_term() const {
+        return is_terminal;
+    }
+
+    [[nodiscard]] unsigned short get_symb() const {
+        return symb;
     }
 
 protected:
     bool is_terminal{false};
     unsigned long long weight{};
-    unsigned char symb{};
+    unsigned short symb{};
     BorNode *l{nullptr}, *r{nullptr};
 };
 

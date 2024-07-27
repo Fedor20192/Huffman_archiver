@@ -4,15 +4,9 @@
 
 #include <cstring>
 #include <iostream>
-#include <fstream>
-#include <filesystem>
 
-#include "encoder/get_cnt.h"
-#include "CONSTANTS.h"
-#include "structures/Bor.h"
-
-
-namespace fs = std::filesystem;
+#include "encoder/encoder.h"
+#include "structures/BInt.h"
 
 
 void help_message() {
@@ -23,28 +17,16 @@ void help_message() {
     std::cout << "archiver -h\t\t\t\t\t\t\t\t\t\tto see help_message" << std::endl;
 }
 
+
 int main(int argc, char *argv[]) {
     if (argc < 3 || argv[1] == "-h") {
         help_message();
-        return 1;
+        return 111;
     }
     if (strcmp(argv[1], "-c") == 0) {
-        unsigned long long cnt_of_symbols[UCHAR_RANGE] = {}; //todo: int to long long
-        fs::path output_path = argv[2];
-        std::ofstream fout(output_path);
-        for (int ind = 3; ind < argc; ind++) {
-            fs::path input_path = argv[ind];
-            if (!exists(input_path)) {
-                std::cout << input_path << " is not exist\n";
-                continue;
-            }
-            std::string filename = input_path.filename().string();
-            get_cnt(filename, cnt_of_symbols);
-            std::ifstream fin(input_path);
-            get_cnt(fin, cnt_of_symbols);
-            fin.close();
-        }
-        auto bor = Bor(cnt_of_symbols);
+        encode(argc, argv);
     } else {
+
     }
+    return 0;
 }

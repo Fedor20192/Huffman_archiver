@@ -12,20 +12,18 @@
 class Bor {
 public:
     explicit Bor(const unsigned long long cnt_of_symbols[]) {
-        unsigned alphabet_sz = 0;
-        unsigned char ind = 0;
-        do {
+        alphabet_sz = 0;
+        for (unsigned short ind = 0; ind < UCHAR_RANGE; ind++) {
             if (cnt_of_symbols[ind]) {
                 alphabet_sz++;
             }
-        } while (ind++ < UCHAR_RANGE - 1);
-        ind = 0;
+        }
         auto Q = PriorityQueue(alphabet_sz);
-        do {
+        for (unsigned short ind = 0; ind < UCHAR_RANGE; ind++) {
             if (cnt_of_symbols[ind]) {
                 Q.insert(new BorNode(cnt_of_symbols[ind], ind));
             }
-        } while (ind++ < UCHAR_RANGE - 1);
+        }
         while (Q.size() > 1) {
             BorNode *A = Q.get_min();
             Q.erase();
@@ -36,7 +34,27 @@ public:
         root = Q.get_min();
     }
 
-    void delete_bor(BorNode *N) {
+    void get_codes(std::string codes[]) {
+        std::string now_code;
+        get_codes(root, codes, now_code);
+    }
+
+    [[nodiscard]] unsigned short get_alphabet_sz() const {
+        return alphabet_sz;
+    }
+
+    ~Bor() {
+        delete_bor(root);
+    }
+
+private:
+    unsigned short alphabet_sz;
+    BorNode *root{nullptr};
+
+    static void delete_bor(const BorNode *N) {
+        if (!N) {
+            return;
+        }
         if (N->get_left_son()) {
             delete_bor(N->get_left_son());
         }
@@ -46,12 +64,28 @@ public:
         delete N;
     }
 
-    ~Bor() {
-        delete_bor(root);
+    void get_codes(const BorNode *N, std::string codes[], std::string &now_code) {
+        if (!N) {
+            return;
+        }
+        if (alphabet_sz == 1) {
+            codes[N->get_symb()] = "0";
+            return;
+        }
+        if (N->get_left_son()) {
+            now_code += '0';
+            get_codes(N->get_left_son(), codes, now_code);
+            now_code.pop_back();
+        }
+        if (N->get_right_son()) {
+            now_code += '1';
+            get_codes(N->get_right_son(), codes, now_code);
+            now_code.pop_back();
+        }
+        if (N->is_term()) {
+            codes[N->get_symb()] = now_code;
+        }
     }
-
-private:
-    BorNode *root{nullptr};
 };
 
 #endif //BOR_H
