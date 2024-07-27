@@ -11,7 +11,7 @@
 
 class BInt {
 public:
-    static void print(std::ofstream &fout, const unsigned short val, const int bits) { //todo: use templates in val
+    static void print(std::ofstream &fout, const unsigned val, const unsigned bits) { //todo: use templates in val
         for (int bit = bits - 1; bit >= 0; bit--) {
             add_bit_to_output_buffer(fout, (val >> bit) & 1);
         }

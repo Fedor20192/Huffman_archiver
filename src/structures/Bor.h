@@ -13,13 +13,13 @@ class Bor {
 public:
     explicit Bor(const unsigned long long cnt_of_symbols[]) {
         alphabet_sz = 0;
-        for (unsigned short ind = 0; ind < UCHAR_RANGE; ind++) {
+        for (LCHAR ind = 0; ind < LCHAR_RANGE; ind++) {
             if (cnt_of_symbols[ind]) {
                 alphabet_sz++;
             }
         }
         auto Q = PriorityQueue(alphabet_sz);
-        for (unsigned short ind = 0; ind < UCHAR_RANGE; ind++) {
+        for (LCHAR ind = 0; ind < LCHAR_RANGE; ind++) {
             if (cnt_of_symbols[ind]) {
                 Q.insert(new BorNode(cnt_of_symbols[ind], ind));
             }
@@ -39,7 +39,7 @@ public:
         get_codes(root, codes, now_code);
     }
 
-    [[nodiscard]] unsigned short get_alphabet_sz() const {
+    [[nodiscard]] LCHAR get_alphabet_sz() const {
         return alphabet_sz;
     }
 
@@ -48,7 +48,7 @@ public:
     }
 
 private:
-    unsigned short alphabet_sz;
+    LCHAR alphabet_sz;
     BorNode *root{nullptr};
 
     static void delete_bor(const BorNode *N) {

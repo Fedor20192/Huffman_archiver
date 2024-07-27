@@ -5,9 +5,11 @@
 #ifndef BORNODE_H
 #define BORNODE_H
 
+#include "../CONSTANTS.h"
+
 class BorNode {
 public:
-    BorNode(const unsigned long long cnt_of_symbol, const unsigned short _symb) {
+    BorNode(const unsigned long long cnt_of_symbol, const LCHAR _symb) {
         weight = cnt_of_symbol;
         symb = _symb;
         is_terminal = true;
@@ -39,14 +41,14 @@ public:
         return is_terminal;
     }
 
-    [[nodiscard]] unsigned short get_symb() const {
+    [[nodiscard]] LCHAR get_symb() const {
         return symb;
     }
 
 protected:
     bool is_terminal{false};
     unsigned long long weight{};
-    unsigned short symb{};
+    LCHAR symb{};
     BorNode *l{nullptr}, *r{nullptr};
 };
 
