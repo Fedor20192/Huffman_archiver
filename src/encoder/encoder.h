@@ -5,6 +5,6 @@
 #ifndef ENCODER_H
 #define ENCODER_H
 
-void encode(int argc, char* argv[]);
+int encode(int argc, char* argv[]);
 
 #endif //ENCODER_H

@@ -22,7 +22,7 @@ public:
     }
 
     BorNode() {
-        is_terminal = false, weight = 0, symb, l = nullptr, r = nullptr;
+        is_terminal = false, weight = 0, symb = 0, l = nullptr, r = nullptr;
     }
 
     bool cmp(const BorNode *x) const {
@@ -43,6 +43,18 @@ public:
 
     [[nodiscard]] LCHAR get_symb() const {
         return symb;
+    }
+
+    void set_left_son(BorNode *N) {
+        l = N;
+    }
+
+    void set_right_son(BorNode *N) {
+        r = N;
+    }
+
+    void set_symb(const LCHAR _symb) {
+        symb = _symb, is_terminal = true;
     }
 
 protected:

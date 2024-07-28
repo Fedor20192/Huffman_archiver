@@ -3,10 +3,13 @@
 //
 
 #include <cstring>
+#include <filesystem>
 #include <iostream>
+#include <fstream>
 
 #include "encoder/encoder.h"
-#include "structures/BInt.h"
+#include "decoder/decoder.h"
+#include "CONSTANTS.h"
 
 
 void help_message() {
@@ -18,15 +21,18 @@ void help_message() {
 }
 
 
-int main(int argc, char *argv[]) {
-    if (argc < 3 || argv[1] == "-h") {
-        help_message();
-        return 111;
-    }
-    if (strcmp(argv[1], "-c") == 0) {
-        encode(argc, argv);
-    } else {
 
+int main(int argc, char *argv[]) {
+    if (strcmp(argv[1], "-c") == 0) {
+        return encode(argc, argv);
+    } else if (strcmp(argv[1], "-d") == 0) {
+        std::ifstream fin(argv[2]);
+        if (!fin) {
+            std::cout << argv[2] << " is not exists" << std::endl;
+            return 1;
+        }
+        fs::path output_dir = fs::current_path();
+        output_dir.operator+=('/');
+        return decode(fin, output_dir);
     }
-    return 0;
 }

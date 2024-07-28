@@ -13,7 +13,7 @@ public:
     explicit PriorityQueue(const unsigned queue_sz) {
         sz = 0;
         tree = new BorNode *[queue_sz];
-        for (int i = 0; i < queue_sz; i++) {
+        for (unsigned i = 0; i < queue_sz; i++) {
             tree[i] = nullptr;
         }
     }

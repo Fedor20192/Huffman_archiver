@@ -9,10 +9,8 @@
 
 #include "encoder.h"
 #include "../structures/Bor.h"
-#include "../CONSTANTS.h"
 #include "../structures/BInt.h"
-
-namespace fs = std::filesystem;
+#include "../CONSTANTS.h"
 
 void get_cnt(std::ifstream &fin, unsigned long long cnt_of_symbols[]) {
     fin.clear(), fin.seekg(0, std::ios::beg);
@@ -75,7 +73,7 @@ void get_cnt_of_length(unsigned cnt_of_length[], std::pair<LCHAR, std::string> a
     }
 }
 
-void print_symb(std::ofstream &fout, std::string &code) {
+void print_code(std::ofstream &fout, std::string &code) {
     for (const char c: code) {
         BInt::print(fout, c - '0', SIZE_OF_BIT);
     }
@@ -83,7 +81,7 @@ void print_symb(std::ofstream &fout, std::string &code) {
 
 void print_name(std::string &filename, std::ofstream &fout, std::string codes[]) {
     for (const char c: filename) {
-        print_symb(fout, codes[c]);
+        print_code(fout, codes[static_cast<unsigned char>(c)]);
     }
 }
 
@@ -91,11 +89,11 @@ void print_file(std::ifstream &fin, std::ofstream &fout, std::string codes[]) {
     fin.clear(), fin.seekg(0, std::ios::beg);
     char in;
     while (fin.read(&in, sizeof(char))) {
-        print_symb(fout, codes[in]);
+        print_code(fout, codes[static_cast<unsigned char>(in)]);
     }
 }
 
-void encode(int argc, char *argv[]) {
+int encode(int argc, char *argv[]) {
     unsigned long long cnt_of_symbols[LCHAR_RANGE] = {};
     cnt_of_symbols[FILENAME_END] = cnt_of_symbols[ONE_MORE_FILE] = cnt_of_symbols[ARCHIVE_END] = 1;
     unsigned cnt_of_files = 0;
@@ -103,11 +101,11 @@ void encode(int argc, char *argv[]) {
     fs::path output_path = argv[2];
     std::ofstream fout(output_path, std::ios::binary);
 
-    for (unsigned ind = 3; ind < argc; ind++) {
+    for (int ind = 3; ind < argc; ind++) {
         fs::path input_path = argv[ind];
         if (!exists(input_path)) {
-            std::cout << input_path << " is not exist\n";
-            continue;
+            std::cout << input_path << " is not exist" << std::endl;
+            return 111;
         }
 
         cnt_of_files++;
@@ -123,7 +121,7 @@ void encode(int argc, char *argv[]) {
     auto bor = Bor(cnt_of_symbols);
     std::string codes[LCHAR_RANGE];
     bor.get_codes(codes);
-    const unsigned alphabet_sz = bor.get_alphabet_sz();
+    const LCHAR alphabet_sz = bor.get_alphabet_sz();
 
 
     std::pair<LCHAR, std::string> arr[LCHAR_RANGE];
@@ -142,25 +140,23 @@ void encode(int argc, char *argv[]) {
     }
     delete[] cnt_of_length;
 
-    for (unsigned ind = 3; ind < argc; ind++) {
+    for (int ind = 3; ind < argc; ind++) {
         fs::path input_path = argv[ind];
-        if (!exists(input_path)) {
-            continue;
-        }
 
         std::string filename = input_path.filename().string();
         print_name(filename, fout, codes);
-        print_symb(fout, codes[FILENAME_END]);
+        print_code(fout, codes[FILENAME_END]);
         std::ifstream fin(input_path, std::ios::binary);
         print_file(fin, fout, codes);
         fin.close();
 
         if (--cnt_of_files) {
-            print_symb(fout, codes[ONE_MORE_FILE]);
+            print_code(fout, codes[ONE_MORE_FILE]);
         }
     }
 
-    print_symb(fout, codes[ARCHIVE_END]);
+    print_code(fout, codes[ARCHIVE_END]);
     BInt::clear_output_buffer(fout);
     fout.close();
+    return 0;
 }
