@@ -94,6 +94,7 @@ void print_file(std::ifstream &fin, std::ofstream &fout, std::string codes[]) {
 }
 
 int encode(int argc, char *argv[]) {
+    auto start = std::chrono::steady_clock::now();
     unsigned long long cnt_of_symbols[LCHAR_RANGE] = {};
     cnt_of_symbols[FILENAME_END] = cnt_of_symbols[ONE_MORE_FILE] = cnt_of_symbols[ARCHIVE_END] = 1;
     unsigned cnt_of_files = 0;
@@ -158,5 +159,7 @@ int encode(int argc, char *argv[]) {
     print_code(fout, codes[ARCHIVE_END]);
     BInt::clear_output_buffer(fout);
     fout.close();
+    auto end = std::chrono::steady_clock::now();
+    std::cout << "TIME: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " MS\n";
     return 0;
 }

@@ -43,6 +43,7 @@ void get_canonical_codes(const unsigned max_length_of_code, const LCHAR symbols[
 }
 
 int decode(std::ifstream &fin, fs::path &output_dir) {
+    auto start = std::chrono::steady_clock::now();
     const LCHAR alphabet_sz = BInt::read(fin, SIZE_OF_LCHAR);
     auto symbols = new LCHAR[alphabet_sz];
     for (LCHAR ind = 0; ind < alphabet_sz; ind++) {
@@ -93,11 +94,12 @@ int decode(std::ifstream &fin, fs::path &output_dir) {
                 char out = static_cast<char>(symb);
                 fout.write(&out, sizeof(char));
             }
-            std::cout << symb << '\n';
         }
     }
 
     delete[] cnt_of_length;
     delete[] symbols;
+    auto end = std::chrono::steady_clock::now();
+    std::cout << "TIME: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " MS\n";
     return 0;
 }

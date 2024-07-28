@@ -21,11 +21,10 @@ void help_message() {
 }
 
 
-
 int main(int argc, char *argv[]) {
-    if (strcmp(argv[1], "-c") == 0) {
+    if (argc > 2 && strcmp(argv[1], "-c") == 0) {
         return encode(argc, argv);
-    } else if (strcmp(argv[1], "-d") == 0) {
+    } else if (argc > 2 && strcmp(argv[1], "-d") == 0) {
         std::ifstream fin(argv[2]);
         if (!fin) {
             std::cout << argv[2] << " is not exists" << std::endl;
@@ -34,5 +33,8 @@ int main(int argc, char *argv[]) {
         fs::path output_dir = fs::current_path();
         output_dir.operator+=('/');
         return decode(fin, output_dir);
+    } else {
+        help_message();
+        return 111;
     }
 }
