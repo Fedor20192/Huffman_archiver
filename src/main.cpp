@@ -16,8 +16,8 @@ void help_message() {
     std::cout << "Archiver\n";
     std::cout << "Commands:\n";
     std::cout << "archiver -c archive_name file1 [file2...]\t\tto compress file and save result in archive_name\n";
-    std::cout << "archiver -d archive_name\t\t\t\t\t\tto uncompress archive\n";
-    std::cout << "archiver -h\t\t\t\t\t\t\t\t\t\tto see help_message" << std::endl;
+    std::cout << "archiver -d archive_name\t\t\t\tto uncompress archive\n";
+    std::cout << "archiver -h\t\t\t\t\t\tto see help_message" << std::endl;
 }
 
 

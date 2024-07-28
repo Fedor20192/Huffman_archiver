@@ -8,8 +8,8 @@
 #include <algorithm>
 
 #include "encoder.h"
-#include "../structures/Bor.h"
-#include "../structures/BInt.h"
+#include "../structures/Bor/Bor.h"
+#include "../structures/BInt/BInt.h"
 #include "../CONSTANTS.h"
 
 void get_cnt(std::ifstream &fin, unsigned long long cnt_of_symbols[]) {
@@ -99,7 +99,9 @@ int encode(int argc, char *argv[]) {
     cnt_of_symbols[FILENAME_END] = cnt_of_symbols[ONE_MORE_FILE] = cnt_of_symbols[ARCHIVE_END] = 1;
     unsigned cnt_of_files = 0;
 
-    fs::path output_path = argv[2];
+    fs::path output_path = fs::current_path();
+    output_path.operator+=('/');
+    output_path.operator+=(argv[2]);
     std::ofstream fout(output_path, std::ios::binary);
 
     for (int ind = 3; ind < argc; ind++) {

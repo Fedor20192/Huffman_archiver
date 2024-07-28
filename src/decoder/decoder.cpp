@@ -4,11 +4,11 @@
 
 #include <filesystem>
 #include <iostream>
+#include <fstream>
 
 #include "decoder.h"
-#include "../CONSTANTS.h"
-#include "../structures/BInt.h"
-#include "../structures/Bor.h"
+#include "../structures/BInt/BInt.h"
+#include "../structures/Bor/Bor.h"
 
 void new_read(std::ifstream &fin) {
     fin.clear(), fin.seekg(0, std::ios::beg);

@@ -5,6 +5,8 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+#include <filesystem>
+
 using LCHAR = unsigned short;
 
 namespace fs = std::filesystem;

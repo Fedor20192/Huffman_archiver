@@ -13,11 +13,15 @@ add_executable(hse_archiver
         src/main.cpp
         src/encoder/encoder.cpp
         src/encoder/encoder.h
-        src/structures/Bor.h
-        src/structures/PriorityQueue.h
         src/CONSTANTS.h
-        src/structures/BorNode.h
-        src/structures/BInt.h
         src/decoder/decoder.cpp
         src/decoder/decoder.h
+        src/structures/Bor/Bor.cpp
+        src/structures/Bor/Bor.h
+        src/structures/Bor/BorNode.cpp
+        src/structures/Bor/BorNode.h
+        src/structures/PriorityQueue/PriorityQueue.cpp
+        src/structures/PriorityQueue/PriorityQueue.h
+        src/structures/BInt/BInt.cpp
+        src/structures/BInt/BInt.h
 )
