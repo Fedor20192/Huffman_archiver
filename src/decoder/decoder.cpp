@@ -13,9 +13,9 @@
 void new_read(std::ifstream &fin) {
     fin.clear(), fin.seekg(0, std::ios::beg);
     BInt::clear_input_buffer();
-    const LCHAR alphabet_sz = BInt::read(fin, SIZE_OF_LCHAR);
+    const auto alphabet_sz = BInt::read<LCHAR>(fin, SIZE_OF_LCHAR);
     for (LCHAR ind = 0; ind < alphabet_sz; ind++) {
-        BInt::read(fin, SIZE_OF_LCHAR);
+        BInt::read<LCHAR>(fin, SIZE_OF_LCHAR);
     }
 }
 
@@ -44,17 +44,17 @@ void get_canonical_codes(const unsigned max_length_of_code, const LCHAR symbols[
 
 int decode(std::ifstream &fin, fs::path &output_dir) {
     auto start = std::chrono::steady_clock::now();
-    const LCHAR alphabet_sz = BInt::read(fin, SIZE_OF_LCHAR);
+    const auto alphabet_sz = BInt::read<LCHAR>(fin, SIZE_OF_LCHAR);
     auto symbols = new LCHAR[alphabet_sz];
     for (LCHAR ind = 0; ind < alphabet_sz; ind++) {
-        symbols[ind] = BInt::read(fin, SIZE_OF_LCHAR);
+        symbols[ind] = BInt::read<LCHAR>(fin, SIZE_OF_LCHAR);
     }
 
     LCHAR cnt = 0;
     unsigned max_length_of_code = 0;
     while (cnt < alphabet_sz) {
         max_length_of_code++;
-        cnt += BInt::read(fin, SIZE_OF_LCHAR);
+        cnt += BInt::read<LCHAR>(fin, SIZE_OF_LCHAR);
     }
     auto cnt_of_length = new unsigned[max_length_of_code + 1];
     std::string codes[LCHAR_RANGE];
@@ -62,7 +62,7 @@ int decode(std::ifstream &fin, fs::path &output_dir) {
     new_read(fin);
 
     for (unsigned lenght_of_code = 1; lenght_of_code <= max_length_of_code; lenght_of_code++) {
-        cnt_of_length[lenght_of_code] = BInt::read(fin, SIZE_OF_LCHAR);
+        cnt_of_length[lenght_of_code] = BInt::read<LCHAR>(fin, SIZE_OF_LCHAR);
     }
 
     get_canonical_codes(max_length_of_code, symbols, cnt_of_length, codes);
@@ -74,7 +74,7 @@ int decode(std::ifstream &fin, fs::path &output_dir) {
     std::ofstream fout;
 
     while (!fin.eof()) {
-        const LCHAR bit = BInt::read(fin, SIZE_OF_BIT);
+        const auto bit = BInt::read<LCHAR>(fin, SIZE_OF_BIT);
         bor.add(bit);
         if (bor.is_terminal()) {
             const LCHAR symb = bor.get_symb();

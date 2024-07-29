@@ -103,7 +103,6 @@ int encode(int argc, char *argv[]) {
     output_path.operator+=('/');
     output_path.operator+=(argv[2]);
     std::ofstream fout(output_path, std::ios::binary);
-
     for (int ind = 3; ind < argc; ind++) {
         fs::path input_path = argv[ind];
         if (!exists(input_path)) {
