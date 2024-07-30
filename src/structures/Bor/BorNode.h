@@ -16,7 +16,7 @@ public:
 
     BorNode();
 
-    bool cmp(const BorNode *x) const;
+    bool operator<(const BorNode &x) const;
 
     [[nodiscard]] BorNode *get_left_son() const;
 

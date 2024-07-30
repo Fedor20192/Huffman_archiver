@@ -23,9 +23,10 @@ BorNode::BorNode() {
     is_terminal = false, weight = 0, symb = 0, l = nullptr, r = nullptr;
 }
 
-bool BorNode::cmp(const BorNode *x) const {
-    return weight<x->weight || (weight == x->weight && symb<x->symb);
+bool BorNode::operator<(const BorNode &x) const {
+    return weight<x.weight || (weight == x.weight && symb<x.symb);
 }
+
 
 [[nodiscard]] BorNode *BorNode::get_left_son() const {
     return l;

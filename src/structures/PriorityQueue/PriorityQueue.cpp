@@ -28,11 +28,11 @@ void PriorityQueue::push_down(unsigned node_ind) const {
     while (2 * node_ind + 1 < sz) {
         const unsigned left_son = 2 * node_ind + 1, right_son = 2 * node_ind + 2;
         unsigned min_son = left_son;
-        if (right_son < sz && tree[right_son]->cmp(tree[left_son])) {
+        if (right_son < sz && *tree[right_son] < *tree[left_son]) {
             min_son = right_son;
         }
-        if (tree[node_ind]->cmp(tree[min_son]) || (
-                !tree[node_ind]->cmp(tree[min_son]) && !tree[min_son]->cmp(tree[node_ind]))) {
+        if (*tree[node_ind] < *tree[min_son] || (
+                !(*tree[node_ind] < *tree[min_son]) && !(*tree[min_son] < *tree[node_ind]))) {
             break;
         }
         BorNode *N = tree[node_ind];
@@ -43,7 +43,7 @@ void PriorityQueue::push_down(unsigned node_ind) const {
 }
 
 void PriorityQueue::push_up(unsigned node_ind) const {
-    while (node_ind && tree[node_ind]->cmp(tree[(node_ind - 1) / 2])) {
+    while (node_ind && *tree[node_ind] < *tree[(node_ind - 1) / 2]) {
         BorNode *N = tree[node_ind];
         tree[node_ind] = tree[(node_ind - 1) / 2];
         tree[(node_ind - 1) / 2] = N;
