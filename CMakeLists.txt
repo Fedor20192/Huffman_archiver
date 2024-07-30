@@ -20,8 +20,7 @@ add_executable(hse_archiver
         src/structures/Bor/Bor.h
         src/structures/Bor/BorNode.cpp
         src/structures/Bor/BorNode.h
-        src/structures/PriorityQueue/PriorityQueue.cpp
-        src/structures/PriorityQueue/PriorityQueue.h
+        src/structures/PriorityQueue.h
         src/structures/BInt/BInt.cpp
         src/structures/BInt/BInt.h
 )
