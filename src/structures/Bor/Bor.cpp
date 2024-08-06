@@ -13,7 +13,7 @@ Bor::Bor(const unsigned long long cnt_of_symbols[]) {
             alphabet_sz++;
         }
     }
-    auto Q = PriorityQueue<BorNode>(alphabet_sz);
+    auto Q = PriorityQueue<BorNode>();
     for (LCHAR ind = 0; ind < LCHAR_RANGE; ind++) {
         if (cnt_of_symbols[ind]) {
             Q.insert(new BorNode(cnt_of_symbols[ind], ind));

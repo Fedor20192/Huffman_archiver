@@ -99,6 +99,7 @@ int decode(std::ifstream &fin, fs::path &output_dir) {
 
     delete[] cnt_of_length;
     delete[] symbols;
+    BInt::clear_input_buffer();
     auto end = std::chrono::steady_clock::now();
     std::cout << "TIME: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " MS\n";
     return 0;
