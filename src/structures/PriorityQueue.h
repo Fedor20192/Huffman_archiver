@@ -85,6 +85,9 @@ private:
         for (unsigned ind = 0; ind < sz; ind++) {
             new_tree[ind] = tree[ind];
         }
+        for (unsigned ind = sz; ind < sz * 2; ind++) {
+            new_tree[ind] = nullptr;
+        }
         delete[] tree;
         tree = new_tree;
         sz *= 2;
